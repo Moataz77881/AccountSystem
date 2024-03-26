@@ -3,6 +3,7 @@ using AccountSystem.DataAccess.Repository.Cashiers;
 using AccountSystem.DataAccess.Repository.Cities;
 using AccountSystem.DataAccess.Repository.InvoiceDetails;
 using AccountSystem.DataAccess.Repository.InvoiceHeaders;
+using AccountSystem.Middelwere;
 using AccountSystem.Models;
 using AccountSystem.Options;
 using Accountystem.Business.Mappings;
@@ -12,6 +13,7 @@ using Accountystem.Business.Services.Cities;
 using Accountystem.Business.Services.InvoiceDetails;
 using Accountystem.Business.Services.InvoiceHeaders;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace AccountSystem
 {
@@ -21,6 +23,14 @@ namespace AccountSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(
+                new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/AccountSystem.txt",rollingInterval : RollingInterval.Day)
+                .MinimumLevel.Information()
+                .CreateLogger()
+                );
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -53,6 +63,7 @@ namespace AccountSystem
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionHandlerMiddelwere>();
 
             app.UseHttpsRedirection();
 
