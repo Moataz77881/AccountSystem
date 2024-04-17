@@ -15,7 +15,6 @@ namespace AccountSystem.Model.DTOs.InvoiceHeaderDTO
         public long Id { get; set; }
         public string CustomerName { get; set; } = null!;
         public DateTime Invoicedate { get; set; }
-        //public virtual BranchDto Branch { get; set; } = null!;
         public virtual CashierDto? Cashier { get; set; }
         public virtual ICollection<InvoiceDetailDto> InvoiceDetails { get; set; } = new List<InvoiceDetailDto>();
     }

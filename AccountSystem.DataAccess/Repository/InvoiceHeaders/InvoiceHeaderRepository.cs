@@ -16,7 +16,8 @@ namespace AccountSystem.DataAccess.Repository.InvoiceHeaders
         {
             var result = await context.Cashiers.FirstOrDefaultAsync(x => x.Id == invoice.CashierId);
             if (result == null) return null;
-            await context.InvoiceHeaders.AddAsync(invoice);
+            
+            await context.InvoiceHeaders.AddRangeAsync(invoice);
             await context.SaveChangesAsync();
             return invoice;
         }

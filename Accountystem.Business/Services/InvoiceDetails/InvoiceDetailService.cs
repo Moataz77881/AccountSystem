@@ -20,20 +20,6 @@ namespace Accountystem.Business.Services.InvoiceDetails
             this.repository = repository;
             this.mapper = mapper;
         }
-        public async Task<InvoiceDetailDto?> CreateItemService(InvoiceDetailCreationDto item)
-        {
-            var result = await repository.CreateItemDetailRepo(mapper.Map<InvoiceDetail>(item));
-            if (result == null) return null;
-            return mapper.Map<InvoiceDetailDto>(result);
-        }
-
-        public async Task<InvoiceDetailDto?> DeleteItemService(int id)
-        {
-            var result = await repository.DeleteItemDetailRepo(id);
-            if (result == null) return null;
-            return mapper.Map<InvoiceDetailDto>(result);
-        }
-
         public async Task<List<InvoiceDetailDto>> GetItemsService()
         {
             return mapper.Map<List<InvoiceDetailDto>>(await repository.GetItemDetailRepo());

@@ -15,25 +15,11 @@ namespace AccountSystem.Controllers
         {
             this.service = service;
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateInvoiceDetail([FromBody] InvoiceDetailCreationDto invoiceDetail)
-        {
-            var result = await service.CreateItemService(invoiceDetail);
-            if(result == null) return NotFound();
-            return Ok("Invoice Detail Added");
-        }
+      
         [HttpGet]
         public async Task<IActionResult> GetInvoiceDetail()
         {
             return Ok(await service.GetItemsService());
-        }
-        [HttpDelete]
-        [Route("{id:int}")]
-        public async Task<IActionResult> DeleteInvoiceDetail([FromRoute] int id)
-        {
-            var result = await service.DeleteItemService(id);
-            if (result == null) return NotFound();
-            return Ok("Invoice Detail Deleted");
         }
         [HttpPut]
         [Route("{id:int}")]

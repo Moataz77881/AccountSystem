@@ -16,24 +16,6 @@ namespace AccountSystem.DataAccess.Repository.InvoiceDetails
         {
             this.context = context;
         }
-        public async Task<InvoiceDetail?> CreateItemDetailRepo(InvoiceDetail item)
-        {
-            var result = await context.InvoiceHeaders.FirstOrDefaultAsync(x => x.Id == item.InvoiceHeaderId);
-            if (result == null) return null;
-            await context.InvoiceDetails.AddAsync(item);
-            await context.SaveChangesAsync();
-            return item;
-        }
-
-        public async Task<InvoiceDetail?> DeleteItemDetailRepo(int id)
-        {
-            var result = await context.InvoiceDetails.FirstOrDefaultAsync(x => x.Id == id);
-            if (result == null) return null;
-            context.InvoiceDetails.Remove(result);
-            await context.SaveChangesAsync();
-            return result;
-        }
-
         public async Task<List<InvoiceDetail>> GetItemDetailRepo()
         {
             return await context.InvoiceDetails.ToListAsync();
