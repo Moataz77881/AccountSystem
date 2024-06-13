@@ -1,6 +1,5 @@
 ﻿using AccountSystem.Model.DTOs.CashierDTO;
 using Accountystem.Business.Services.CashierServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountSystem.Controllers
@@ -17,31 +16,28 @@ namespace AccountSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CashierCreation([FromBody] CashierCreationDto cashier) 
+        public IActionResult CashierCreation([FromBody] CashierCreationDto cashier) 
         {
-            var result = await service.CreateCashierService(cashier);
-            if (result == null) return NotFound();
+            service.CreateCashierService(cashier);
             return Ok("Cashier Added");
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllCashier()
+        public IActionResult GetAllCashier()
         {
-            return Ok(await service.GetAllCashierService());
+            return Ok( service.GetAllCashierService());
         }
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> DeleteCashier([FromRoute] int id)
+        public IActionResult DeleteCashier([FromRoute] int id)
         {
-            var result = await service.DeleteCashierService(id);
-            if (result == null) return NotFound();
+            service.DeleteCashierService(id);
             return Ok("Cashier Deleted");
         }
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateCashier([FromRoute] int id, [FromBody] CashierUpdateDto cashier)
+        public IActionResult UpdateCashier([FromRoute] int id, [FromBody] CashierUpdateDto cashier)
         {
-            var result = await service.UpdateCashierService(cashier, id);
-            if(result == null) return NotFound();
+            service.UpdateCashierService(cashier, id);
             return Ok("Cashier Updated");
         }
     }

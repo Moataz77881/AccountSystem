@@ -17,33 +17,29 @@ namespace AccountSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBranch([FromBody] CreationBranchDto branch)
+        public IActionResult CreateBranch([FromBody] CreationBranchDto branch)
         {
-            var result = await service.CreateBranchService(branch);
-            if (result == null) return NotFound();
+            service.CreateBranchService(branch);
             return Ok("Branch Added");
         }
         [HttpGet]
-        public async Task<IActionResult> GetBranches()
+        public IActionResult GetBranches()
         {
-            return Ok(await service.GetBranchService());
+            return Ok(service.GetBranchService());
         }
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateBranch([FromRoute] int id, [FromBody] CreationBranchDto branch)
+        public IActionResult UpdateBranch([FromRoute] int id, [FromBody] CreationBranchDto branch)
         {
-            var result = await service.UpdateBranchService(branch, id);
-            if (result == null) return NotFound();
+             service.UpdateBranchService(branch, id);
             return Ok("Branch Updated");
         }
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> DeleteBranch([FromRoute] int id)
+        public IActionResult DeleteBranch([FromRoute] int id)
         {
-            var result = await service.DeleteBranchService(id);
-            if (result == null) return NotFound();
+            service.DeleteBranchService(id);
             return Ok("Branch Deleted");
         }
-
     }
 }

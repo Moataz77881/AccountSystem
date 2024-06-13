@@ -2,12 +2,12 @@
 
 namespace AccountSystem.DataAccess.Repository.InvoiceHeaders
 {
-    public interface IInvoiceHeaderRepository
+    public interface IInvoiceHeaderRepository: IGenericRepository<InvoiceHeader>
     {
-        public Task<InvoiceHeader?> CreateInvoiceRepo(InvoiceHeader invoice);
-        public Task<List<InvoiceHeader>> GetInvoiceRepo();
-        public Task<InvoiceHeader?> UpdateInvoiceRepo(InvoiceHeader invoice, int id);
-        public Task<InvoiceHeader?> DeleteInvoiceRepo(int id);
+        //public Task<InvoiceHeader?> CreateInvoiceRepo(InvoiceHeader invoice);
+        public List<InvoiceHeader> GetInvoiceRepo();
+        public void UpdateInvoiceRepo(InvoiceHeader invoice, int id);
+        public void DeleteInvoiceRepo(int id);
 
     }
 }

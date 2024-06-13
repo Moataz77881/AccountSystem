@@ -1,6 +1,5 @@
-using AccountSystem.DataAccess.Repository.Branches;
-using AccountSystem.DataAccess.Repository.Cashiers;
-using AccountSystem.DataAccess.Repository.Cities;
+using AccountSystem.DataAccess.Implementation;
+using AccountSystem.DataAccess.Repository;
 using AccountSystem.DataAccess.Repository.InvoiceDetails;
 using AccountSystem.DataAccess.Repository.InvoiceHeaders;
 using AccountSystem.Middelwere;
@@ -53,6 +52,7 @@ namespace AccountSystem
             builder.Services.AddScoped<IInvoiceDeltailService, InvoiceDetailService>();
             builder.Services.AddScoped<IInvoiceHeaderRepository, InvoiceHeaderRepository>();
             builder.Services.AddScoped<IInvoiceHeaderService, InvoiceHeaderService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfwork>();
 
             builder.Services.AddAutoMapper(typeof(AutoMapProfile));
             var app = builder.Build();

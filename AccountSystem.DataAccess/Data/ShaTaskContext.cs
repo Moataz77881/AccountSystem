@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace AccountSystem.Models;
 
 public partial class ShaTaskContext : DbContext
 {
-    public ShaTaskContext()
-    {
-    }
-
     public ShaTaskContext(DbContextOptions<ShaTaskContext> options)
         : base(options)
     {

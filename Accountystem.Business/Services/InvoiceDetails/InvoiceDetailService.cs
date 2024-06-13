@@ -1,4 +1,5 @@
-﻿using AccountSystem.DataAccess.Repository.InvoiceDetails;
+﻿using AccountSystem.DataAccess.Repository;
+using AccountSystem.DataAccess.Repository.InvoiceDetails;
 using AccountSystem.Model.DTOs.InvoiceDetailDTO;
 using AccountSystem.Models;
 using AutoMapper;
@@ -12,24 +13,23 @@ namespace Accountystem.Business.Services.InvoiceDetails
 {
     public class InvoiceDetailService : IInvoiceDeltailService
     {
-        private readonly IInvoiceDetailRepo repository;
-        private readonly IMapper mapper;
+		private readonly IUnitOfWork unitOfWork;
+		private readonly IMapper mapper;
 
-        public InvoiceDetailService(IInvoiceDetailRepo repository,IMapper mapper)
+        public InvoiceDetailService(IUnitOfWork unitOfWork,IMapper mapper)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+			this.unitOfWork = unitOfWork;
+			this.mapper = mapper;
         }
-        public async Task<List<InvoiceDetailDto>> GetItemsService()
+        public List<InvoiceDetailDto> GetItemsService()
         {
-            return mapper.Map<List<InvoiceDetailDto>>(await repository.GetItemDetailRepo());
+            return mapper.Map<List<InvoiceDetailDto>>(unitOfWork.invoiceDetail.getAll());
         }
 
-        public async Task<InvoiceDetailDto?> UpdateItemService(InvoiceUpdateDetailDto item, int id)
+        public void UpdateItemService(InvoiceUpdateDetailDto item, int id)
         {
-            var result = await repository.UpdateItemDetailRepo(mapper.Map<InvoiceDetail>(item), id);
-            if (result == null) return null;
-            return mapper.Map<InvoiceDetailDto>(result);
+            unitOfWork.invoiceDetail.UpdateItemDetailRepo(mapper.Map<InvoiceDetail>(item), id);
+            unitOfWork.complete();
         }
     }
 }

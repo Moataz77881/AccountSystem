@@ -10,9 +10,9 @@ namespace Accountystem.Business.Services.Cities
 {
     public interface ICityService
     {
-        public Task<CityDto> CreateCityService(CityCreationDto city);
-        public Task<List<CityDto>> GetAllCityService();
-        public Task<CityDto?> DeleteCityService(int id);
-        public Task<CityDto?> UpdateCityService(CityCreationDto city, int id);
+        public void CreateCityService(CityCreationDto city);
+        public List<CityDto> GetAllCityService();
+        public void DeleteCityService(int id);
+        public void UpdateCityService(CityCreationDto city, int id);
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AccountSystem.DataAccess.Repository.InvoiceDetails
 {
-    public interface IInvoiceDetailRepo
+    public interface IInvoiceDetailRepo : IGenericRepository<InvoiceDetail>
     {
-        public Task<List<InvoiceDetail>> GetItemDetailRepo();
+        //public Task<List<InvoiceDetail>> GetItemDetailRepo();
         public Task<InvoiceDetail?> UpdateItemDetailRepo(InvoiceDetail item, int id);
 
     }

@@ -1,50 +1,42 @@
-﻿using AccountSystem.DataAccess.Repository.InvoiceHeaders;
+﻿using AccountSystem.DataAccess.Repository;
 using AccountSystem.Model.DTOs.InvoiceHeaderDTO;
 using AccountSystem.Models;
-using Accountystem.Business.Services.InvoiceHeaders;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accountystem.Business.Services.InvoiceHeaders
 {
     public class InvoiceHeaderService : IInvoiceHeaderService
     {
-        private readonly IInvoiceHeaderRepository repository;
-        private readonly IMapper mapper;
+		private readonly IUnitOfWork unitOfWork;
+		private readonly IMapper mapper;
 
-        public InvoiceHeaderService(IInvoiceHeaderRepository repository,IMapper mapper)
+        public InvoiceHeaderService(IUnitOfWork unitOfWork,IMapper mapper)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+			this.unitOfWork = unitOfWork;
+			this.mapper = mapper;
         }
 
-        public async Task<InvoiceHeaderDto> CreateInvoiceHeaderService(InvoiceHeaderCreationDto invoiceHeader)
+        public void CreateInvoiceHeaderService(InvoiceHeaderCreationDto invoiceHeader)
         {
-            var result = await repository.CreateInvoiceRepo(mapper.Map<InvoiceHeader>(invoiceHeader));
-            return mapper.Map<InvoiceHeaderDto>(result);
+            unitOfWork.invoiceHeader.add(mapper.Map<InvoiceHeader>(invoiceHeader));
+            unitOfWork.complete();
         }
 
-        public async Task<InvoiceHeaderDto?> DeleteInvoiceHeaderService(int id)
+        public void DeleteInvoiceHeaderService(int id)
         {
-            var result = await repository.DeleteInvoiceRepo(id);
-            if (result == null) return null;
-            return mapper.Map<InvoiceHeaderDto>(result);
+            unitOfWork.invoiceHeader.DeleteInvoiceRepo(id);
+            unitOfWork.complete();
         }
 
-        public async Task<List<InvoiceHeaderDto>> GetInvoiceHeaderService()
+        public List<InvoiceHeaderDto> GetInvoiceHeaderService()
         {
-            return mapper.Map<List<InvoiceHeaderDto>>(await repository.GetInvoiceRepo());
+            return mapper.Map<List<InvoiceHeaderDto>>(unitOfWork.invoiceHeader.GetInvoiceRepo());
         }
 
-        public async Task<InvoiceHeaderDto?> UpdateInvoiceHeaderService(InvoiceHeaderUpdateDto invoiceHeader, int id)
+        public void UpdateInvoiceHeaderService(InvoiceHeaderUpdateDto invoiceHeader, int id)
         {
-            var result = await repository.UpdateInvoiceRepo(mapper.Map<InvoiceHeader>(invoiceHeader), id);
-            if (result == null) return null;
-            return mapper.Map<InvoiceHeaderDto>(result);
+            unitOfWork.invoiceHeader.UpdateInvoiceRepo(mapper.Map<InvoiceHeader>(invoiceHeader), id);
+            unitOfWork.complete();
         }
     }
 }

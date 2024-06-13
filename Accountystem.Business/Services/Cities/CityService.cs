@@ -1,48 +1,45 @@
-﻿using AccountSystem.DataAccess.Repository.Cities;
+﻿using AccountSystem.DataAccess.Repository;
 using AccountSystem.Model.DTOs.CityDTO;
 using AccountSystem.Models;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accountystem.Business.Services.Cities
 {
     public class CityService : ICityService
     {
-        private readonly ICityRepository repository;
-        private readonly IMapper mapper;
+		private readonly IUnitOfWork unitOfWork;
 
-        public CityService(ICityRepository repository, IMapper mapper)
-        {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
-        public async Task<CityDto> CreateCityService(CityCreationDto city)
-        {
-            var result = await repository.CreateCityRepo(mapper.Map<City>(city));
-            return mapper.Map<CityDto>(result);
-        }
+		//private readonly ICityRepository repository;
+		private readonly IMapper mapper;
 
-        public async Task<CityDto?> DeleteCityService(int id)
+        public CityService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            var result = await repository.DeleteCityRepo(id);
-            if (result == null) return null;
-            return mapper.Map<CityDto>(result);
+			this.unitOfWork = unitOfWork;
+			//this.repository = repository;
+			this.mapper = mapper;
+        }
+        public void CreateCityService(CityCreationDto city)
+        {
+            unitOfWork.city.add(mapper.Map<City>(city));
+            unitOfWork.complete();
         }
 
-        public async Task<List<CityDto>> GetAllCityService()
+        public void DeleteCityService(int id)
         {
-            return mapper.Map<List<CityDto>>(await repository.GetAllCityRepo());
+            var city = unitOfWork.city.getFristOrDefult(filterexpression : x => x.Id == id);
+            unitOfWork.city.remove(city);
+            unitOfWork.complete();
         }
 
-        public async Task<CityDto?> UpdateCityService(CityCreationDto city, int id)
+        public List<CityDto> GetAllCityService()
         {
-            var result = await repository.UpdateCityRepo(mapper.Map<City>(city), id);
-            if(result == null) return null;
-            return mapper.Map<CityDto>(result);
+            return mapper.Map<List<CityDto>>(unitOfWork.city.getAll());
+        }
+
+        public void UpdateCityService(CityCreationDto city, int id)
+        {
+            unitOfWork.city.UpdateCityRepo(mapper.Map<City>(city), id);
+            unitOfWork.complete();
         }
     }
 }

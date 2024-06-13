@@ -1,6 +1,5 @@
 ﻿using AccountSystem.Model.DTOs.CityDTO;
 using Accountystem.Business.Services.Cities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountSystem.Controllers
@@ -17,31 +16,30 @@ namespace AccountSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCity([FromBody] CityCreationDto city) 
+        public IActionResult CreateCity([FromBody] CityCreationDto city) 
         {
-            await service.CreateCityService(city);
-            return Ok("City Added");
+            service.CreateCityService(city);
+            return Ok("city Added");
         }
         [HttpGet]
-        public async Task<IActionResult> GetCities()
+        public IActionResult GetCities()
         {
-            return Ok(await service.GetAllCityService());
+            return Ok(service.GetAllCityService());
         }
+
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> DeleteCity([FromRoute] int id)
+        public IActionResult DeleteCity([FromRoute] int id)
         {
-            var result = await service.DeleteCityService(id);
-            if(result == null) return NotFound();
-            return Ok("City Deleted");
+            service.DeleteCityService(id);
+            return Ok("city Deleted");
         }
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateCity([FromRoute] int id, [FromBody] CityCreationDto city)
+        public IActionResult UpdateCity([FromRoute] int id, [FromBody] CityCreationDto city)
         {
-            var result = await service.UpdateCityService(city, id);
-            if(result == null) return NotFound();
-            return Ok("City Updated");
+            service.UpdateCityService(city, id);
+            return Ok("city Updated");
         }
     }
 }

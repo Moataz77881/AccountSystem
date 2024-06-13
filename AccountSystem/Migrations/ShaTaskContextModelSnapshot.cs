@@ -76,7 +76,7 @@ namespace AccountSystem.Migrations
                     b.ToTable("Cashier", (string)null);
                 });
 
-            modelBuilder.Entity("AccountSystem.Models.City", b =>
+            modelBuilder.Entity("AccountSystem.Models.city", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,13 +159,13 @@ namespace AccountSystem.Migrations
 
             modelBuilder.Entity("AccountSystem.Models.Branch", b =>
                 {
-                    b.HasOne("AccountSystem.Models.City", "City")
+                    b.HasOne("AccountSystem.Models.city", "city")
                         .WithMany("Branches")
                         .HasForeignKey("CityId")
                         .IsRequired()
                         .HasConstraintName("FK_Branches_Cities");
 
-                    b.Navigation("City");
+                    b.Navigation("city");
                 });
 
             modelBuilder.Entity("AccountSystem.Models.Cashier", b =>
@@ -209,7 +209,7 @@ namespace AccountSystem.Migrations
                     b.Navigation("InvoiceHeaders");
                 });
 
-            modelBuilder.Entity("AccountSystem.Models.City", b =>
+            modelBuilder.Entity("AccountSystem.Models.city", b =>
                 {
                     b.Navigation("Branches");
                 });

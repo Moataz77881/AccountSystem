@@ -1,4 +1,4 @@
-﻿using AccountSystem.DataAccess.Repository.Branches;
+﻿using AccountSystem.DataAccess.Repository;
 using AccountSystem.Model.DTOs.BranchDTO;
 using AccountSystem.Models;
 using AutoMapper;
@@ -12,39 +12,36 @@ namespace Accountystem.Business.Services.Branchs
 {
     public class BranchService : IBrachService
     {
-        private readonly IBranchesRepository repository;
-        private readonly IMapper mapper;
+		private readonly IUnitOfWork unitOfWork;
+		private readonly IMapper mapper;
 
-        public BranchService(IBranchesRepository repository, IMapper mapper)
+        public BranchService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+			this.unitOfWork = unitOfWork;
+			this.mapper = mapper;
         }
-        public async Task<BranchDto?> CreateBranchService(CreationBranchDto branch)
+        public void CreateBranchService(CreationBranchDto branch)
         {
-            var result = await repository.CreateBranchRepo(mapper.Map<Branch>(branch));
-            if(result==null) return null;
-            return mapper.Map<BranchDto>(result);
-        }
-
-        public async Task<BranchDto?> DeleteBranchService(int id)
-        {
-            var result = await repository.DeleteBranchRepo(id);
-            if (result == null) return null;
-            return mapper.Map<BranchDto>(result);
+            unitOfWork.branch.add(mapper.Map<Branch>(branch));
+            unitOfWork.complete();
         }
 
-        public async Task<List<BranchDto>> GetBranchService()
+        public void DeleteBranchService(int id)
         {
-            return mapper.Map<List<BranchDto>>(await repository.GetBranchRepo());
+            var entity = unitOfWork.branch.getFristOrDefult(filterexpression : x => x.Id == id);
+            unitOfWork.branch.remove(entity);
+            unitOfWork.complete();
         }
 
-        public async Task<BranchDto?> UpdateBranchService(CreationBranchDto branch, int id)
+        public List<BranchDto> GetBranchService()
         {
-            var result = await repository.UpdateBranchRepo(mapper.Map<Branch>(branch), id);
-            if (result == null) return null;
-            return mapper.Map<BranchDto>(result);
+            return mapper.Map<List<BranchDto>>(unitOfWork.branch.getAll(IncludeWord:"City"));
+        }
 
+        public void UpdateBranchService(CreationBranchDto branch, int id)
+        {
+            unitOfWork.branch.UpdateBranchRepo(mapper.Map<Branch>(branch), id);
+            unitOfWork.complete();
         }
     }
 }

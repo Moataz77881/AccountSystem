@@ -17,31 +17,28 @@ namespace AccountSystem.Controllers
             this.service = service;
         }
         [HttpGet]
-        public async Task<IActionResult> GetInvoicesHeader() 
+        public IActionResult GetInvoicesHeader() 
         {
-            return Ok(await service.GetInvoiceHeaderService());
+            return Ok( service.GetInvoiceHeaderService());
         }
         [HttpPost]
-        public async Task<IActionResult> CreateInvoicesHeader([FromBody] InvoiceHeaderCreationDto invoiceHeader)
+        public IActionResult CreateInvoicesHeader([FromBody] InvoiceHeaderCreationDto invoiceHeader)
         {
-            var result = await service.CreateInvoiceHeaderService(invoiceHeader);
-            if (result == null) return NotFound();
+            service.CreateInvoiceHeaderService(invoiceHeader);
             return Ok("Invoice Header Created");
         }
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> DeleteInvoicesHeader([FromRoute] int id)
+        public IActionResult DeleteInvoicesHeader([FromRoute] int id)
         {
-            var result = await service.DeleteInvoiceHeaderService(id);
-            if (result == null) return NotFound();
+            service.DeleteInvoiceHeaderService(id);
             return Ok("Invoice Header Deleted");
         }
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateInvoicesHeader([FromRoute] int id, [FromBody] InvoiceHeaderUpdateDto invoiceheader)
+        public IActionResult UpdateInvoicesHeader([FromRoute] int id, [FromBody] InvoiceHeaderUpdateDto invoiceheader)
         {
-            var result = await service.UpdateInvoiceHeaderService(invoiceheader,id);
-            if (result == null) return NotFound();
+            service.UpdateInvoiceHeaderService(invoiceheader,id);
             return Ok("Invoice Header Updated");
         }
     }

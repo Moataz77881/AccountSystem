@@ -10,10 +10,10 @@ namespace Accountystem.Business.Services.InvoiceHeaders
 {
     public interface IInvoiceHeaderService
     {
-        public Task<InvoiceHeaderDto> CreateInvoiceHeaderService(InvoiceHeaderCreationDto invoiceHeader);
-        public Task<List<InvoiceHeaderDto>> GetInvoiceHeaderService();
-        public Task<InvoiceHeaderDto?> DeleteInvoiceHeaderService(int id);
-        public Task<InvoiceHeaderDto?> UpdateInvoiceHeaderService(InvoiceHeaderUpdateDto invoiceHeader,int id);
+        public void CreateInvoiceHeaderService(InvoiceHeaderCreationDto invoiceHeader);
+        public List<InvoiceHeaderDto> GetInvoiceHeaderService();
+        public void DeleteInvoiceHeaderService(int id);
+        public void UpdateInvoiceHeaderService(InvoiceHeaderUpdateDto invoiceHeader,int id);
 
 
     }

@@ -17,16 +17,15 @@ namespace AccountSystem.Controllers
         }
       
         [HttpGet]
-        public async Task<IActionResult> GetInvoiceDetail()
+        public IActionResult GetInvoiceDetail()
         {
-            return Ok(await service.GetItemsService());
+            return Ok( service.GetItemsService());
         }
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> UpdateInvoiceDetail([FromRoute] int id, [FromBody] InvoiceUpdateDetailDto invoice)
+        public IActionResult UpdateInvoiceDetail([FromRoute] int id, [FromBody] InvoiceUpdateDetailDto invoice)
         {
-            var result = await service.UpdateItemService(invoice, id);
-            if (result == null) return NotFound();
+            service.UpdateItemService(invoice, id);
             return Ok("Invoice Detail Updated");
         }
     }
